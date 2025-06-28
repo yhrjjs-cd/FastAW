@@ -1,0 +1,33 @@
+[versions]
+springBootVersion = "3.4.4"
+fastjson2Version = "2.0.53"
+fastORMVersion = "0.0.1"
+guavaVersion = "33.2.0-jre"
+commonsLang3Version = "3.17.0"
+javassistVersion = "3.29.0-GA"
+lombokVersion = "1.18.36"
+springVersion = "6.2.5"
+
+
+[libraries]
+fastjson2 = { module = "com.alibaba.fastjson2:fastjson2", version.ref = "fastjson2Version" }
+fastjson2-extension = { module = "com.alibaba.fastjson2:fastjson2-extension", version.ref = "fastjson2Version" }
+fastjson2-extension-spring6 = { module = "com.alibaba.fastjson2:fastjson2-extension-spring6", version.ref = "fastjson2Version" }
+guava = { module = "com.google.guava:guava", version.ref = "guavaVersion" }
+commons-lang3 = { module = "org.apache.commons:commons-lang3", version.ref = "commonsLang3Version" }
+javassist = { module = "org.javassist:javassist", version.ref = "javassistVersion" }
+lombok = { module = "org.projectlombok:lombok", version.ref = "lombokVersion" }
+spring-boot-autoconfigure = { module = "org.springframework.boot:spring-boot-autoconfigure", version.ref = "springBootVersion" }
+spring-boot-starter-test = { module = "org.springframework.boot:spring-boot-starter-test", version.ref = "springBootVersion" }
+spring-boot-starter-web = { module = "org.springframework.boot:spring-boot-starter-web", version.ref = "springBootVersion" }
+spring-jdbc = { module = "org.springframework:spring-jdbc", version.ref = "springVersion" }
+yhrj-fast-orm = { module = "com.cdyhrj:fast-orm", version.ref = "fastORMVersion" }
+jakarta-validation-api = { module = "jakarta.validation:jakarta.validation-api", version = "3.0.2" }
+com-googlecode-aviator-aviator = { module = "com.googlecode.aviator:aviator", version = "5.4.3" }
+org-antlr-st4 = { module = "org.antlr:ST4", version = "4.3.4" }
+
+[plugins]
+spring-boot = { id = "org.springframework.boot", version.ref = "springBootVersion" }
+
+[bundles]
+fastjson2 = ["fastjson2", "fastjson2-extension", "fastjson2-extension-spring6"]
