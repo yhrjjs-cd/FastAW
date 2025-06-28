@@ -1,11 +1,12 @@
 package com.cdyhrj.cloud.approve.domain.flow.worknode.cc;
 
+import com.cdyhrj.cloud.approve.api.ISelectPersonService;
+import com.cdyhrj.cloud.approve.api.IUserContext;
 import com.cdyhrj.cloud.approve.domain.IdName;
 import com.cdyhrj.cloud.approve.domain.Step;
 import com.cdyhrj.cloud.approve.domain.flow.enums.NodeType;
 import com.cdyhrj.cloud.approve.domain.flow.worknode.Arg;
 import com.cdyhrj.cloud.approve.domain.flow.worknode.WorkNode;
-import com.cdyhrj.cloud.approve.service.SelectPersonService;
 import com.cdyhrj.cloud.approve.util.SpringUtils;
 import lombok.Data;
 
@@ -62,12 +63,11 @@ public class CcArg implements Arg {
     private List<IdName> calcPersonList() {
         List<IdName> personList = new ArrayList<>();
 
-        SelectPersonService selectPersonService = SpringUtils.getBean(SelectPersonService.class);
-        // TODO here
-//        UserContext userContext = UserContextManager.getUserContext();
-//        if (this.ccToSelf) {
-//            personList.add(IdName.of(userContext.getId(), userContext.getName()));
-//        }
+        ISelectPersonService selectPersonService = SpringUtils.getBean(ISelectPersonService.class);
+        IUserContext userContext = SpringUtils.getBean(IUserContext.class);
+        if (this.ccToSelf) {
+            personList.add(IdName.of(userContext.getUserId(), userContext.getUserName()));
+        }
 
         if (this.ccDirectorSuperior) {
             personList.addAll(selectPersonService.selectDirectorSuperior());

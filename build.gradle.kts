@@ -1,6 +1,5 @@
 plugins {
     java
-    `kotlin-dsl`
     `maven-publish`
     alias(libs.plugins.spring.boot)
 }
@@ -62,16 +61,15 @@ tasks.test {
     )
 }
 
-tasks.jar {
-    enabled = true
-    archiveClassifier = ""
+tasks.bootJar {
+    enabled = false
 }
 
 publishing {
     publications {
         create<MavenPublication>("mavenJava") {
             artifact(tasks.named<Jar>("jar")) {
-//                classifier = ""
+                classifier = ""
             }
         }
     }

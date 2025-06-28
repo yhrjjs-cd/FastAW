@@ -1,10 +1,12 @@
 package com.cdyhrj.cloud.approve.domain.flow.worknode.branch;
 
 import com.alibaba.fastjson2.JSON;
+import com.cdyhrj.cloud.approve.api.IUserContext;
 import com.cdyhrj.cloud.approve.domain.Step;
 import com.cdyhrj.cloud.approve.domain.flow.enums.NodeType;
 import com.cdyhrj.cloud.approve.domain.flow.worknode.Arg;
 import com.cdyhrj.cloud.approve.domain.flow.worknode.WorkNode;
+import com.cdyhrj.cloud.approve.util.SpringUtils;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.BooleanUtils;
@@ -143,10 +145,10 @@ public class BranchArg implements Arg {
      * @return 是否匹配
      */
     private boolean testPromoterValue(String param, Object value) {
-        // TODO here
-//        if ("角色".equals(param)) {
-//            return Objects.nonNull(value) && value.equals(UserContextManager.getUserContext().getRole());
-//        }
+        if ("角色".equals(param)) {
+            IUserContext userContext = SpringUtils.getBean(IUserContext.class);
+            return Objects.nonNull(value) && value.equals(userContext.getRoleId());
+        }
 
         return false;
     }
@@ -169,9 +171,8 @@ public class BranchArg implements Arg {
 
     private boolean testEqual(Object value, Object dv) {
         if ("$USER_ID".equals(value)) {
-            // TODO here
-//            log.info("{},{},{}", UserContextManager.getUserContext().getId().intValue(), dv, UserContextManager.getUserContext().getId().intValue() == (int) dv);
-//            return UserContextManager.getUserContext().getId().intValue() == (int) dv;
+            IUserContext userContext = SpringUtils.getBean(IUserContext.class);
+            return userContext.getUserId().intValue() == (int) dv;
         }
 
         return value.equals(dv);

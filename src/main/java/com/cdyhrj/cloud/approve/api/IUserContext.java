@@ -22,7 +22,12 @@ public interface IUserContext {
     Long getUserId();
 
     /**
-     * @return 获取用户名称
+     * @return 用户名称
      */
     String getUserName();
+
+    /**
+     * @return 角色Id
+     */
+    Long getRoleId();
 }

@@ -1,8 +1,8 @@
 package com.cdyhrj.cloud.approve.domain.flow.worknode.approve;
 
+import com.cdyhrj.cloud.approve.api.ISelectPersonService;
 import com.cdyhrj.cloud.approve.domain.IdName;
 import com.cdyhrj.cloud.approve.domain.flow.enums.SelectType;
-import com.cdyhrj.cloud.approve.service.SelectPersonService;
 import com.cdyhrj.cloud.approve.util.SpringUtils;
 import lombok.Data;
 
@@ -30,6 +30,6 @@ public class SelectRoleArg implements SelectTypeArg {
 
         List<Long> roleIds = roleList.stream().map(IdName::getId).toList();
 
-        return SpringUtils.getBean(SelectPersonService.class).selectByRoleIds(roleIds);
+        return SpringUtils.getBean(ISelectPersonService.class).selectByRoleIds(roleIds);
     }
 }

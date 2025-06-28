@@ -1,8 +1,8 @@
 package com.cdyhrj.cloud.approve.domain.flow.worknode.approve;
 
+import com.cdyhrj.cloud.approve.api.ISelectPersonService;
 import com.cdyhrj.cloud.approve.domain.IdName;
 import com.cdyhrj.cloud.approve.domain.flow.enums.SelectType;
-import com.cdyhrj.cloud.approve.service.SelectPersonService;
 import com.cdyhrj.cloud.approve.util.SpringUtils;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
@@ -20,6 +20,6 @@ public class DirectorSuperiorArg implements SelectTypeArg {
 
     @Override
     public List<IdName> calcPersonList(Map<String, Object> submitData) {
-        return SpringUtils.getBean(SelectPersonService.class).selectDirectorSuperior();
+        return SpringUtils.getBean(ISelectPersonService.class).selectDirectorSuperior();
     }
 }

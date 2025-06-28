@@ -4,21 +4,28 @@ import com.cdyhrj.cloud.approve.domain.flow.Flow;
 import com.cdyhrj.fastorm.adapter.ObjectValueAdapter;
 import com.cdyhrj.fastorm.annotation.ColDefine;
 import com.cdyhrj.fastorm.annotation.Column;
+import com.cdyhrj.fastorm.annotation.Id;
+import com.cdyhrj.fastorm.annotation.Name;
 import com.cdyhrj.fastorm.annotation.Table;
-import com.cdyhrj.fastorm.entity.BaseEntity;
+import com.cdyhrj.fastorm.entity.Entity;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 /**
  * 流程模版
  *
  * @author <a href="huangqi@cdyhrj.com">黄奇</a>
  */
-@EqualsAndHashCode(callSuper = true)
 @Data
 @Table(name = "wf_template")
-public class WfTemplate extends BaseEntity {
-    // TODO here innerEntity
+public class WfTemplate implements Entity {
+    @Id
+    @Column
+    private Long innerId;
+
+    @Name
+    @Column
+    private String id;
+
     /**
      * 编码
      */
