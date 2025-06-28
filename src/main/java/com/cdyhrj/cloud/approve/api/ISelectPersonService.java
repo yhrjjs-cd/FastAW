@@ -16,7 +16,7 @@ public interface ISelectPersonService {
      *
      * @return 审批人列表
      */
-    public List<IdName> selectDirectorSuperior();
+    List<IdName> selectDirectorSuperior();
 
     /**
      * 通过角色Id选择审批人
@@ -24,7 +24,7 @@ public interface ISelectPersonService {
      * @param roleIds 角色Id列表
      * @return 审批人列表
      */
-    public List<IdName> selectByRoleIds(List<Long> roleIds);
+    List<IdName> selectByRoleIds(List<Long> roleIds);
 
     /**
      * 通过部门Id和角色Id选择审批人
@@ -33,7 +33,7 @@ public interface ISelectPersonService {
      * @param roleIds 角色Id列表
      * @return 审批人列表
      */
-    public List<IdName> selectDeptAndRoleIds(List<Long> deptIds, List<Long> roleIds);
+    List<IdName> selectDeptAndRoleIds(List<Long> deptIds, List<Long> roleIds);
 
     /**
      * 通过脚本查找审批人
@@ -46,5 +46,5 @@ public interface ISelectPersonService {
      * @param submitData 提交数据
      * @return 审批人列表
      */
-    public List<IdName> selectByScript(String script, Map<String, Object> submitData);
+    List<IdName> selectByScript(String script, Map<String, Object> submitData);
 }
