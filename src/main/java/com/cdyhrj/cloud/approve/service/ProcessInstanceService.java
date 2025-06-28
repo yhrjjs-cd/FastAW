@@ -96,19 +96,6 @@ public class ProcessInstanceService {
         fastORM.insertable(processInstance)
                 .withRelation(ProcessInstance::getProcessInstanceWf)
                 .insert();
-//        List<IdName> attachments = startProcessInfo.getAttachments();
-//        if (Objects.nonNull(attachments)) {
-//            for (IdName idName : attachments) {
-//                ProcessInstanceAttachment processInstanceAttachment = ProcessInstanceAttachment.builder()
-//                        .processInstanceId(processInstance.getId())
-//                        .id(idName.getId())
-//                        .name(idName.getName())
-//                        .build();
-//
-//                sqlClient.inserter(ProcessInstanceAttachment.class).insert(processInstanceAttachment);
-//            }
-//        }
-
 
         ProcessInstanceBizRelation processInstanceBizRelation = ProcessInstanceBizRelation.builder()
                 .title(startProcessInfo.getRuntimeWf().getTitle())
