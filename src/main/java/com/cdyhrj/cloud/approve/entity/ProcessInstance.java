@@ -11,7 +11,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 /**
  * 流程实例
@@ -66,13 +66,13 @@ public class ProcessInstance extends BaseEntity {
      * 发起时间
      */
     @Column
-    private Date startTime;
+    private LocalDateTime startTime;
 
     /**
      * 结束时间
      */
     @Column
-    private Date endTime;
+    private LocalDateTime endTime;
 
     /**
      * 当前处理任务

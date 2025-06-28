@@ -1,5 +1,7 @@
 package com.cdyhrj.cloud.approve.service;
 
+import com.cdyhrj.cloud.approve.api.IAwMessageSender;
+import com.cdyhrj.cloud.approve.api.IUserContext;
 import com.cdyhrj.cloud.approve.domain.ApprovalInfo;
 import com.cdyhrj.cloud.approve.domain.ApprovalItem;
 import com.cdyhrj.cloud.approve.domain.ForwardInfo;
@@ -28,12 +30,13 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.time.DateFormatUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import org.stringtemplate.v4.ST;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Date;
@@ -58,6 +61,8 @@ public class ProcessInstanceService {
     private final StartService startService;
     private final TemplateService templateService;
     private final BusinessService businessService;
+    private final IUserContext userContext;
+    private final IAwMessageSender messageService;
 
     /**
      * 启动流程
@@ -76,11 +81,11 @@ public class ProcessInstanceService {
                 .promoterName(promoterName)
                 .title(startProcessInfo.getRuntimeWf().getTitle())
                 .description(calcDescription(startProcessInfo))
-                .startTime(new Date())
+                .startTime(LocalDateTime.now())
                 .status(Running)
                 .build();
 
-        processInstance.setTenantId(UserContextManager.getUserContext().getTenantId());
+        processInstance.setTenantId(userContext.getTenantId());
 
         ProcessInstanceWf processInstanceWf = new ProcessInstanceWf();
         processInstanceWf.setRuntimeWf(startProcessInfo.getRuntimeWf());
@@ -88,10 +93,9 @@ public class ProcessInstanceService {
         processInstance.setProcessInstanceWf(processInstanceWf);
 
         // 保存流程实例
-        sqlClient.inserter()
+        fastORM.insertable(processInstance)
                 .withRelation(ProcessInstance::getProcessInstanceWf)
-                .insert(processInstance);
-
+                .insert();
 //        List<IdName> attachments = startProcessInfo.getAttachments();
 //        if (Objects.nonNull(attachments)) {
 //            for (IdName idName : attachments) {
@@ -138,7 +142,7 @@ public class ProcessInstanceService {
         } else {
             ST content = new ST(templateContent, '{', '}');
             content.add("data", startProcessInfo.getBizData());
-            content.add("promoter", UserContextManager.getUserContext().getName());
+            content.add("promoter", userContext.getUserName());
 
             return content.render();
         }
@@ -166,7 +170,7 @@ public class ProcessInstanceService {
      */
     public void end(ProcessInstance processInstance) {
         // 任务执行完成，结束流程
-        processInstance.setEndTime(new Date());
+        processInstance.setEndTime(LocalDateTime.now());
 
         TaskStatus status = TaskStatus.valueOf(this.getVariable(processInstance, Variable.KEY_RESULT));
         if (status == TaskStatus.Approved) {
@@ -354,7 +358,7 @@ public class ProcessInstanceService {
     public void forward(ForwardInfo forwardInfo) {
         Objects.requireNonNull(forwardInfo.getPersonList(), "转发人不能为空");
 
-        Long userId = UserContextManager.getUserContext().getId();
+        Long userId = userContext.getUserId();
 
         List<String> personNames = forwardInfo.getPersonList()
                 .stream()
@@ -364,7 +368,7 @@ public class ProcessInstanceService {
         ForwardInfoEntity forwardInfoEntity = ForwardInfoEntity.builder()
                 .processInstanceId(forwardInfo.getProcessInstanceId())
                 .fromEmpId(userId)
-                .fromEmpName(UserContextManager.getUserContext().getName())
+                .fromEmpName(userContext.getUserName())
                 .isApproval(forwardInfo.isApproval())
                 .comments(personStr)
                 .info(forwardInfo.getInfo())
@@ -458,7 +462,7 @@ public class ProcessInstanceService {
         if (processInstance.getStatus() != Running) {
             ApprovalItem item = ApprovalItem.builder()
                     .title("结束")
-                    .timeInfo(DateFormatUtils.format(processInstance.getEndTime(), "yyyy-MM-dd HH:mm:ss"))
+                    .timeInfo(processInstance.getEndTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
                     .subTitle(processInstance.getStatus().statusName())
                     .type(ApprovalItem.Type.End)
                     .orderTime(processInstance.getEndTime())
@@ -499,7 +503,7 @@ public class ProcessInstanceService {
                     .title(subTitle)
                     .executors(currentApproval)
                     .personList(personList)
-                    .timeInfo(DateFormatUtils.format(task.getStartTime(), "yyyy-MM-dd HH:mm:ss"))
+                    .timeInfo(task.getStartTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
                     .subTitle(subTitle)
                     .type(ApprovalItem.Type.Pending)
                     .orderTime(task.getStartTime())
@@ -516,7 +520,7 @@ public class ProcessInstanceService {
                 .title("发起审批")
                 .executors(processInstance.getPromoterName())
                 .personList(List.of(IdName.of(processInstance.getPromoterId(), processInstance.getPromoterName())))
-                .timeInfo(DateFormatUtils.format(processInstance.getStartTime(), "yyyy-MM-dd HH:mm:ss"))
+                .timeInfo(processInstance.getStartTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
                 .type(ApprovalItem.Type.Start)
                 .orderTime(processInstance.getStartTime())
                 .build();
@@ -552,7 +556,7 @@ public class ProcessInstanceService {
                     .title(item0.getTitle())
                     .executors(executors)
                     .personList(personList)
-                    .timeInfo(DateFormatUtils.format(item0.getCreateAt(), "yyyy-MM-dd HH:mm:ss"))
+                    .timeInfo(item0.getCreateAt().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
                     .subTitle("已抄送" + itemList.size() + "人(" + executors + ")")
                     .orderTime(item0.getCreateAt())
                     .type(ApprovalItem.Type.CC)
@@ -601,7 +605,7 @@ public class ProcessInstanceService {
                     .title(taskItem.getTitle())
                     .subTitle(subTitle)
                     .executors(taskItem.getExecutorName())
-                    .timeInfo(DateFormatUtils.format(taskItem.getEndTime(), "yyyy-MM-dd HH:mm:ss"))
+                    .timeInfo(taskItem.getEndTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
                     .opinion(taskItem.getResult())
                     .type(type)
                     .orderTime(taskItem.getEndTime())
@@ -630,7 +634,7 @@ public class ProcessInstanceService {
             // 转发信息
             ApprovalItem item = ApprovalItem.builder()
                     .executors(elem.getFromEmpName())
-                    .timeInfo(DateFormatUtils.format(elem.getCreatedAt(), "yyyy-MM-dd HH:mm:ss"))
+                    .timeInfo(elem.getCreatedAt().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
                     .subTitle(String.format("已转发(%s)", elem.getComments()))
                     .opinion(elem.getInfo())
                     .type(ApprovalItem.Type.Forward)
@@ -667,7 +671,7 @@ public class ProcessInstanceService {
             ApprovalItem item = ApprovalItem.builder()
                     .title("评论")
                     .executors(elem.getCommentName())
-                    .timeInfo(DateFormatUtils.format(elem.getCreatedAt(), "yyyy-MM-dd HH:mm:ss"))
+                    .timeInfo(elem.getCreatedAt().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
                     .subTitle("添加了评论")
                     .opinion(elem.getContent())
                     .type(ApprovalItem.Type.Comment)

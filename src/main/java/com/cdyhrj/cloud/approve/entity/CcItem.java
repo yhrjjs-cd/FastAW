@@ -9,6 +9,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 /**
@@ -45,7 +46,7 @@ public class CcItem implements Entity {
     private TaskStatus status;
 
     @Column
-    private Date createAt;
+    private LocalDateTime createAt;
 
     @Column
     private Long tenantId;

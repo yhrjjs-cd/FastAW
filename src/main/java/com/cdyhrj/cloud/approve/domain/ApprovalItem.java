@@ -6,7 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -62,7 +62,7 @@ public class ApprovalItem {
      * 排序时间
      */
     @JSONField(serialize = false)
-    private Date orderTime;
+    private LocalDateTime orderTime;
 
     /**
      * 类型

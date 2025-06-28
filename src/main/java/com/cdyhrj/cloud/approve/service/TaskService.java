@@ -1,5 +1,8 @@
 package com.cdyhrj.cloud.approve.service;
 
+import com.cdyhrj.cloud.approve.api.ApproveMessage;
+import com.cdyhrj.cloud.approve.api.IAwMessageSender;
+import com.cdyhrj.cloud.approve.api.IUserContext;
 import com.cdyhrj.cloud.approve.domain.TaskApproveObject;
 import com.cdyhrj.cloud.approve.entity.ProcessInstance;
 import com.cdyhrj.cloud.approve.entity.Task;
@@ -8,9 +11,6 @@ import com.cdyhrj.cloud.approve.entity.TaskItemClob;
 import com.cdyhrj.cloud.approve.entity.Variable;
 import com.cdyhrj.cloud.approve.enums.TaskStatus;
 import com.cdyhrj.cloud.approve.exception.WrongStatusException;
-import com.cdyhrj.cloud.message.domain.ApproveMessage;
-import com.cdyhrj.cloud.message.domain.NoticeType;
-import com.cdyhrj.cloud.message.service.MessageService;
 import com.cdyhrj.fastorm.FastORM;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.Objects;
 
@@ -31,7 +32,8 @@ public class TaskService {
     private final FastORM fastORM;
     private final ProcessInstanceService processInstanceService;
     private final ExecuteNextTaskService executeNextTaskService;
-    private final MessageService messageService;
+    private final IUserContext userContext;
+    private final IAwMessageSender messageService;
 
     /**
      * 执行工单
@@ -93,8 +95,7 @@ public class TaskService {
                     ),
                     true,
                     processInstance.getPromoterName(),
-                    true,
-                    NoticeType.APPROVE
+                    true
             );
         } else {
             messageService.addMessage(
@@ -109,8 +110,7 @@ public class TaskService {
                     ),
                     true,
                     processInstance.getPromoterName(),
-                    true,
-                    NoticeType.APPROVE
+                    true
             );
         }
 
@@ -155,7 +155,7 @@ public class TaskService {
      */
     private void finishTaskWithOne(Task task, TaskStatus taskItemStatus) {
         task.setSignedNum(1);
-        task.setEndTime(new Date());
+        task.setEndTime(LocalDateTime.now());
         task.setStatus(taskItemStatus);
         fastORM.updatable(task)
                 .update();
@@ -231,12 +231,12 @@ public class TaskService {
         task.setSignedNum(signedNum);
 
         if (signedNum == task.getToSignNum()) {
-            task.setEndTime(new Date());
+            task.setEndTime(LocalDateTime.now());
             task.setStatus(taskItemStatus);
         }
 
         if (TaskStatus.Rejected == taskItemStatus) {
-            task.setEndTime(new Date());
+            task.setEndTime(LocalDateTime.now());
             task.setStatus(taskItemStatus);
         }
 
@@ -269,12 +269,12 @@ public class TaskService {
             task.setSignedNum(signedNum);
 
             if (signedNum == task.getToSignNum()) {
-                task.setEndTime(new Date());
+                task.setEndTime(LocalDateTime.now());
                 task.setStatus(taskItemStatus);
             }
 
             if (TaskStatus.Rejected == taskItemStatus) {
-                task.setEndTime(new Date());
+                task.setEndTime(LocalDateTime.now());
                 task.setStatus(taskItemStatus);
             }
 
@@ -319,8 +319,7 @@ public class TaskService {
                                     ""),
                             true,
                             taskItem.getExecutorName(),
-                            false,
-                            NoticeType.APPROVE);
+                            false);
                 }
             }
         } catch (Exception ex) {

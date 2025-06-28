@@ -7,8 +7,6 @@ import com.cdyhrj.fastorm.FastORM;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.Objects;
-
 /**
  * 模板服务
  * (iTek-china 2022)
@@ -43,12 +41,10 @@ public class TemplateService {
      * @return 配置信息
      */
     public Flow getConfig(String id) {
-        WfTemplate templateConfig = sqlClient.objectQuery().name(id).fetch(WfTemplate.class);
-
-        if (Objects.nonNull(templateConfig)) {
-            return templateConfig.getTemplate();
-        }
-
-        throw new IllegalStateException("配置为空：id-" + id);
+        return fastORM.fetchable(WfTemplate.class)
+                .name(id)
+                .fetch()
+                .orElseThrow()
+                .getTemplate();
     }
 }

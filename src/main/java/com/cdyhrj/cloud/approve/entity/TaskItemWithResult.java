@@ -6,7 +6,7 @@ import com.cdyhrj.fastorm.annotation.Table;
 import com.cdyhrj.fastorm.entity.Entity;
 import lombok.Data;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 /**
  * 流程任务单,包含结果
@@ -50,7 +50,7 @@ public class TaskItemWithResult implements Entity {
      * 结束时间
      */
     @Column
-    private Date endTime;
+    private LocalDateTime endTime;
 
     /**
      * 流程状态

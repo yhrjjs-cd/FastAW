@@ -1,6 +1,11 @@
 package com.cdyhrj.cloud.approve.domain.flow.enums;
 
-import com.cdyhrj.cloud.approve.domain.flow.worknode.approve.*;
+import com.cdyhrj.cloud.approve.domain.flow.worknode.approve.DirectorSuperiorArg;
+import com.cdyhrj.cloud.approve.domain.flow.worknode.approve.ScriptExpressionArg;
+import com.cdyhrj.cloud.approve.domain.flow.worknode.approve.SelectDeptAndRoleArg;
+import com.cdyhrj.cloud.approve.domain.flow.worknode.approve.SelectPersonArg;
+import com.cdyhrj.cloud.approve.domain.flow.worknode.approve.SelectRoleArg;
+import com.cdyhrj.cloud.approve.domain.flow.worknode.approve.SelectTypeArg;
 
 /**
  * 选择类型

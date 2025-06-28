@@ -1,11 +1,11 @@
 package com.cdyhrj.cloud.approve.service;
 
+import com.cdyhrj.cloud.approve.api.IUserContext;
 import com.cdyhrj.cloud.approve.domain.StartProcessInfo;
 import com.cdyhrj.cloud.approve.domain.Step;
 import com.cdyhrj.cloud.approve.entity.ProcessInstance;
 import com.cdyhrj.cloud.approve.entity.Task;
 import com.cdyhrj.cloud.approve.enums.TaskStatus;
-import com.cdyhrj.cloud.model.base.security.UserContextManager;
 import com.cdyhrj.fastorm.FastORM;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -23,6 +23,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 @RequiredArgsConstructor
 public class StartService {
     private final FastORM fastORM;
+    private final IUserContext userContext;
     private final ExecuteNextTaskService executeNextTaskService;
 
     /**
@@ -47,7 +48,7 @@ public class StartService {
         Objects.requireNonNull(startProcessInfo.getRuntimeWf().getSteps(), "审批步骤不能为空");
 
         // 插入所有的任务
-        long tenantId = UserContextManager.getUserContext().getTenantId();
+        long tenantId = userContext.getTenantId();
         AtomicInteger index = new AtomicInteger(1);
         List<Task> tasks = startProcessInfo.getRuntimeWf()
                 .getSteps()

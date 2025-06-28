@@ -1,5 +1,8 @@
 package com.cdyhrj.cloud.approve.service;
 
+import com.cdyhrj.cloud.approve.api.ApproveMessage;
+import com.cdyhrj.cloud.approve.api.IAwMessageSender;
+import com.cdyhrj.cloud.approve.api.IUserContext;
 import com.cdyhrj.cloud.approve.domain.Step;
 import com.cdyhrj.cloud.approve.domain.flow.enums.NodeType;
 import com.cdyhrj.cloud.approve.domain.flow.enums.SignRule;
@@ -20,6 +23,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -36,7 +40,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class ExecuteNextTaskService {
     private final FastORM fastORM;
     private final BusinessService businessService;
-    //    private final MessageService messageService;
+    private final IUserContext userContext;
+    private final IAwMessageSender messageService;
     public static final String MESSAGE_TITLE_TEMPLATE = "%s发起的审批";
 
     /**
@@ -54,7 +59,7 @@ public class ExecuteNextTaskService {
                 .fetch();
 
         task.ifPresentOrElse(t -> {
-            t.setStartTime(new Date());
+            t.setStartTime(LocalDateTime.now());
             t.setStatus(TaskStatus.Running);
 
             // 创建所有工单
@@ -107,7 +112,7 @@ public class ExecuteNextTaskService {
     private void executeWithCcAfterStartNode(ProcessInstance processInstance, Step step, Task task) {
         String subTitle = MESSAGE_TITLE_TEMPLATE.formatted(processInstance.getPromoterName());
 
-        long tenantId = UserContextManager.getUserContext().getTenantId();
+        long tenantId = userContext.getTenantId();
         List<CcItem> ccItemList = step.getPersonList().stream().map(person ->
                 CcItem.builder()
                         .processInstanceId(processInstance.getId())
@@ -116,12 +121,12 @@ public class ExecuteNextTaskService {
                         .subTitle(subTitle)
                         .toUserId(person.getId())
                         .toUserName(person.getName())
-                        .createAt(new Date())
+                        .createAt(LocalDateTime.now())
                         .tenantId(tenantId)
                         .build()
         ).toList();
 
-        task.setEndTime(new Date());
+        task.setEndTime(LocalDateTime.now());
         task.setStatus(TaskStatus.Approved); //抄送任务自动通过
 
         fastORM.updatable(task).update();
@@ -130,19 +135,18 @@ public class ExecuteNextTaskService {
         // 执行下一个任务
         this.execNextTask(processInstance);
 
-//        ccItemList.forEach(ccItem -> messageService.addMessage(
-//                ccItem.getToUserId(),
-//                MESSAGE_TITLE_TEMPLATE.formatted(processInstance.getPromoterName()),
-//                ApproveMessage.of(
-//                        "",
-//                        processInstance.getBizType(),
-//                        processInstance.getBizId(),
-//                        processInstance.getId(),
-//                        ""),
-//                false,
-//                null,
-//                false,
-//                NoticeType.APPROVE));
+        ccItemList.forEach(ccItem -> messageService.addMessage(
+                ccItem.getToUserId(),
+                MESSAGE_TITLE_TEMPLATE.formatted(processInstance.getPromoterName()),
+                ApproveMessage.of(
+                        "",
+                        processInstance.getBizType(),
+                        processInstance.getBizId(),
+                        processInstance.getId(),
+                        ""),
+                false,
+                null,
+                false));
     }
 
     /**
@@ -159,7 +163,7 @@ public class ExecuteNextTaskService {
         TaskStatus status = TaskStatus.valueOf(taskStatus);
         String subTitle = getSubTitle(taskId);
 
-        long tenantId = UserContextManager.getUserContext().getTenantId();
+        long tenantId = userContext.getTenantId();
         List<CcItem> ccItemList = step.getPersonList().stream().map(person ->
                 CcItem.builder()
                         .processInstanceId(processInstance.getId())
@@ -169,12 +173,12 @@ public class ExecuteNextTaskService {
                         .toUserId(person.getId())
                         .toUserName(person.getName())
                         .status(status)
-                        .createAt(new Date())
+                        .createAt(LocalDateTime.now())
                         .tenantId(tenantId)
                         .build()
         ).toList();
 
-        task.setEndTime(new Date());
+        task.setEndTime(LocalDateTime.now());
         task.setStatus(TaskStatus.Approved); //抄送任务自动通过
 
         fastORM.updatable(task).update();
@@ -183,29 +187,31 @@ public class ExecuteNextTaskService {
         // 执行下一个任务
         this.execNextTask(processInstance);
 
-//        ccItemList.forEach(ccItem -> messageService.addMessage(
-//                ccItem.getToUserId(),
-//                MESSAGE_TITLE_TEMPLATE.formatted(processInstance.getPromoterName()),
-//                ApproveMessage.of(
-//                        "",
-//                        processInstance.getBizType(),
-//                        processInstance.getBizId(),
-//                        processInstance.getId(),
-//                        ""),
-//                false,
-//                null,
-//                false,
-//                NoticeType.APPROVE));
+        ccItemList.forEach(ccItem -> messageService.addMessage(
+                ccItem.getToUserId(),
+                MESSAGE_TITLE_TEMPLATE.formatted(processInstance.getPromoterName()),
+                ApproveMessage.of(
+                        "",
+                        processInstance.getBizType(),
+                        processInstance.getBizId(),
+                        processInstance.getId(),
+                        ""),
+                false,
+                null,
+                false));
     }
 
     private String getSubTitle(long taskId) {
-        List<TaskItem> taskItemList = sqlClient.objectQuery()
-                .where(Cnd.andEqual(TaskItem::getTaskId, taskId)
-                        .andGroup(ExpressGroup.or()
-                                .orEqual(TaskItem::getStatus, TaskStatus.Approved)
-                                .orEqual(TaskItem::getStatus, TaskStatus.Rejected)))
-                .orderBy(OrderBy.of(TaskItem::getItemIndex))
-                .query(TaskItem.class);
+        List<TaskItem> taskItemList = fastORM.queryable(TaskItem.class)
+                .where()
+                .andEq(TaskItem::getTaskId, taskId)
+                .andOrGroup()
+                .orEq(TaskItem::getStatus, TaskStatus.Approved)
+                .orEq(TaskItem::getStatus, TaskStatus.Rejected)
+                .end()
+                .ret()
+                .orderBy().add(TaskItem::getItemIndex).ret()
+                .query();
 
         return taskItemList.stream()
                 .map(taskItem -> taskItem.getExecutorName() + "(" + taskItem.getStatus().statusName() + ")")
@@ -214,7 +220,7 @@ public class ExecuteNextTaskService {
     }
 
     private void execByOrderTask(ProcessInstance processInstance, Task task, Step step) {
-        long tenantId = UserContextManager.getUserContext().getTenantId();
+        long tenantId = userContext.getTenantId();
         //第一个置为运行中
         AtomicInteger index = new AtomicInteger(1);
         List<TaskItem> taskItemList = step.getPersonList()
@@ -273,7 +279,7 @@ public class ExecuteNextTaskService {
      * @param step            步骤
      */
     private void execOneOrAllTask(ProcessInstance processInstance, Task task, Step step) {
-        long tenantId = UserContextManager.getUserContext().getTenantId();
+        long tenantId = userContext.getTenantId();
         // 全部置为运行中
         AtomicInteger index = new AtomicInteger(1);
         List<TaskItem> taskItemList = step.getPersonList()
@@ -349,11 +355,11 @@ public class ExecuteNextTaskService {
                 .itemIndex(1)
                 .opinion("无审批人，自动审批通过")
                 .build();
-        taskItem.setTenantId(UserContextManager.getUserContext().getTenantId());
+        taskItem.setTenantId(userContext.getTenantId());
         fastORM.insertable(taskItem).insert();
 
         task.setSignedNum(1);
-        task.setEndTime(new Date());
+        task.setEndTime(LocalDateTime.now());
         task.setStatus(TaskStatus.Approved);
 
         fastORM.updatable(task).update();
@@ -433,7 +439,7 @@ public class ExecuteNextTaskService {
      */
     public void end(ProcessInstance processInstance) {
         // 任务执行完成，结束流程
-        processInstance.setEndTime(new Date());
+        processInstance.setEndTime(LocalDateTime.now());
 
         TaskStatus status = TaskStatus.valueOf(this.getVariable(processInstance, Variable.KEY_RESULT));
         if (status == TaskStatus.Approved) {

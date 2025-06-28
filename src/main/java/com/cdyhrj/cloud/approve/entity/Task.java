@@ -6,9 +6,13 @@ import com.cdyhrj.cloud.approve.enums.TaskStatus;
 import com.cdyhrj.fastorm.annotation.Column;
 import com.cdyhrj.fastorm.annotation.Table;
 import com.cdyhrj.fastorm.entity.BaseEntity;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 /**
  * 流程任务
@@ -61,13 +65,13 @@ public class Task extends BaseEntity {
      * 开始时间
      */
     @Column
-    private Date startTime;
+    private LocalDateTime startTime;
 
     /**
      * 结束时间
      */
     @Column
-    private Date endTime;
+    private LocalDateTime endTime;
 
     /**
      * 任务状态

@@ -1,5 +1,6 @@
 package com.cdyhrj.cloud.approve.service;
 
+import com.cdyhrj.cloud.approve.api.IUserContext;
 import com.cdyhrj.cloud.approve.domain.IdName;
 import com.cdyhrj.cloud.approve.service.script.ScriptInstance;
 import com.cdyhrj.fastorm.FastORM;
@@ -20,11 +21,12 @@ import java.util.Objects;
 @RequiredArgsConstructor
 public class SelectPersonService {
     private final FastORM fastORM;
+    private final IUserContext userContext;
     private static final String SQL_TEXT_BY_ROLE_IDS = "select id, name from app_user where id in (select user_id from app_role_user_allocated where role_id in (:roleIds))";
     private static final String SQL_TEXT_BY_DEPT_ROLE_IDS = "select id, name from app_user where id in (select user_id from app_role_user_allocated where role_id in (:roleIds)) and department_id in (:deptIds)";
 
     public List<IdName> selectDirectorSuperior() {
-        Long userDeptId = UserContextManager.getUserContext().getDeptId();
+        Long userDeptId = userContext.getDeptId();
         Department department = sqlClient.objectQuery()
                 .id(userDeptId)
                 .fetch(Department.class);
