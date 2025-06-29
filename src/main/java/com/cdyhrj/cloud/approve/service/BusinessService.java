@@ -1,6 +1,6 @@
 package com.cdyhrj.cloud.approve.service;
 
-import com.cdyhrj.cloud.approve.api.IAfterWorkflowCompleteHandler;
+import com.cdyhrj.cloud.approve.api.IAwCompleteHandler;
 import com.cdyhrj.cloud.approve.entity.ProcessInstance;
 import com.cdyhrj.cloud.approve.enums.ProcessInstanceStatus;
 import com.cdyhrj.cloud.approve.util.SpringUtils;
@@ -22,7 +22,7 @@ public class BusinessService {
      * @param processInstance 流程实例
      */
     public void afterWorkflowComplete(ProcessInstance processInstance) {
-        IAfterWorkflowCompleteHandler handler = SpringUtils.getBean(processInstance.getBizType(), IAfterWorkflowCompleteHandler.class);
+        IAwCompleteHandler handler = SpringUtils.getBean(processInstance.getBizType(), IAwCompleteHandler.class);
 
         handler.complete(processInstance.getBizId(), processInstance.getStatus() == ProcessInstanceStatus.Finished);
     }

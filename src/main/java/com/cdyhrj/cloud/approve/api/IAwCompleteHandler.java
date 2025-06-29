@@ -5,7 +5,7 @@ package com.cdyhrj.cloud.approve.api;
  *
  * @author <a href="huangqi@cdyhrj.com">黄奇</a>
  */
-public interface IAfterWorkflowCompleteHandler {
+public interface IAwCompleteHandler {
     /**
      * 执行完成
      *
