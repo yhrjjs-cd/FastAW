@@ -14,7 +14,7 @@ public interface IAwMessageSender {
     void addMessage(Long userId,
                     String title,
                     String subTitle,
-                    ApproveMessage approveMessage);
+                    AwApproveMessage approveMessage);
 
     /**
      * 新增消息
@@ -27,7 +27,7 @@ public interface IAwMessageSender {
     void addMessage(List<Long> userIds,
                     String title,
                     String subTitle,
-                    ApproveMessage approveMessage);
+                    AwApproveMessage approveMessage);
 
     /**
      * 新增消息
@@ -41,7 +41,7 @@ public interface IAwMessageSender {
      */
     void addMessage(Long userId,
                     String title,
-                    ApproveMessage approveMessage,
+                    AwApproveMessage approveMessage,
                     boolean usePush,
                     String pushToName,
                     boolean isComplete);

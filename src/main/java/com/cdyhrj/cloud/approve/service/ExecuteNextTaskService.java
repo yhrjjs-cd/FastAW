@@ -1,8 +1,8 @@
 package com.cdyhrj.cloud.approve.service;
 
-import com.cdyhrj.cloud.approve.api.ApproveMessage;
+import com.cdyhrj.cloud.approve.api.AwApproveMessage;
 import com.cdyhrj.cloud.approve.api.IAwMessageSender;
-import com.cdyhrj.cloud.approve.api.IUserContext;
+import com.cdyhrj.cloud.approve.api.IAwUserContext;
 import com.cdyhrj.cloud.approve.domain.Step;
 import com.cdyhrj.cloud.approve.domain.flow.enums.NodeType;
 import com.cdyhrj.cloud.approve.domain.flow.enums.SignRule;
@@ -40,7 +40,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class ExecuteNextTaskService {
     private final FastORM fastORM;
     private final BusinessService businessService;
-    private final IUserContext userContext;
+    private final IAwUserContext userContext;
     private final IAwMessageSender messageService;
     public static final String MESSAGE_TITLE_TEMPLATE = "%s发起的审批";
 
@@ -138,7 +138,7 @@ public class ExecuteNextTaskService {
         ccItemList.forEach(ccItem -> messageService.addMessage(
                 ccItem.getToUserId(),
                 MESSAGE_TITLE_TEMPLATE.formatted(processInstance.getPromoterName()),
-                ApproveMessage.of(
+                AwApproveMessage.of(
                         "",
                         processInstance.getBizType(),
                         processInstance.getBizId(),
@@ -190,7 +190,7 @@ public class ExecuteNextTaskService {
         ccItemList.forEach(ccItem -> messageService.addMessage(
                 ccItem.getToUserId(),
                 MESSAGE_TITLE_TEMPLATE.formatted(processInstance.getPromoterName()),
-                ApproveMessage.of(
+                AwApproveMessage.of(
                         "",
                         processInstance.getBizType(),
                         processInstance.getBizId(),

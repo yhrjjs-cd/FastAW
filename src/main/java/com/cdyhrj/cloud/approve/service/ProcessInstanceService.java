@@ -1,7 +1,7 @@
 package com.cdyhrj.cloud.approve.service;
 
 import com.cdyhrj.cloud.approve.api.IAwMessageSender;
-import com.cdyhrj.cloud.approve.api.IUserContext;
+import com.cdyhrj.cloud.approve.api.IAwUserContext;
 import com.cdyhrj.cloud.approve.domain.ApprovalInfo;
 import com.cdyhrj.cloud.approve.domain.ApprovalItem;
 import com.cdyhrj.cloud.approve.domain.ForwardInfo;
@@ -61,7 +61,7 @@ public class ProcessInstanceService {
     private final StartService startService;
     private final TemplateService templateService;
     private final BusinessService businessService;
-    private final IUserContext userContext;
+    private final IAwUserContext userContext;
     private final IAwMessageSender messageService;
 
     /**

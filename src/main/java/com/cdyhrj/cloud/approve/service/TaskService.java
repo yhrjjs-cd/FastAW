@@ -1,8 +1,8 @@
 package com.cdyhrj.cloud.approve.service;
 
-import com.cdyhrj.cloud.approve.api.ApproveMessage;
+import com.cdyhrj.cloud.approve.api.AwApproveMessage;
 import com.cdyhrj.cloud.approve.api.IAwMessageSender;
-import com.cdyhrj.cloud.approve.api.IUserContext;
+import com.cdyhrj.cloud.approve.api.IAwUserContext;
 import com.cdyhrj.cloud.approve.domain.TaskApproveObject;
 import com.cdyhrj.cloud.approve.entity.ProcessInstance;
 import com.cdyhrj.cloud.approve.entity.Task;
@@ -32,7 +32,7 @@ public class TaskService {
     private final FastORM fastORM;
     private final ProcessInstanceService processInstanceService;
     private final ExecuteNextTaskService executeNextTaskService;
-    private final IUserContext userContext;
+    private final IAwUserContext userContext;
     private final IAwMessageSender messageService;
 
     /**
@@ -86,7 +86,7 @@ public class TaskService {
             messageService.addMessage(
                     processInstance.getPromoterId(),
                     "你提交的`%s`审批已通过".formatted(taskItem.getExecutorName()),
-                    ApproveMessage.of(
+                    AwApproveMessage.of(
                             "",
                             processInstance.getBizType(),
                             processInstance.getBizId(),
@@ -101,7 +101,7 @@ public class TaskService {
             messageService.addMessage(
                     processInstance.getPromoterId(),
                     "你提交的`%s`审批未通过".formatted(taskItem.getExecutorName()),
-                    ApproveMessage.of(
+                    AwApproveMessage.of(
                             "",
                             processInstance.getBizType(),
                             processInstance.getBizId(),
@@ -310,7 +310,7 @@ public class TaskService {
                     messageService.addMessage(
                             taskItem.getExecutorId(),
                             processInstance.getPromoterName() + "发起的审批",
-                            ApproveMessage.of(
+                            AwApproveMessage.of(
                                     "",
                                     processInstance.getBizType(),
                                     processInstance.getBizId(),

@@ -1,7 +1,7 @@
 package com.cdyhrj.cloud.approve.domain.flow.worknode.cc;
 
-import com.cdyhrj.cloud.approve.api.ISelectPersonService;
-import com.cdyhrj.cloud.approve.api.IUserContext;
+import com.cdyhrj.cloud.approve.api.IAwSelectPersonService;
+import com.cdyhrj.cloud.approve.api.IAwUserContext;
 import com.cdyhrj.cloud.approve.domain.IdName;
 import com.cdyhrj.cloud.approve.domain.Step;
 import com.cdyhrj.cloud.approve.domain.flow.enums.NodeType;
@@ -63,8 +63,8 @@ public class CcArg implements Arg {
     private List<IdName> calcPersonList() {
         List<IdName> personList = new ArrayList<>();
 
-        ISelectPersonService selectPersonService = SpringUtils.getBean(ISelectPersonService.class);
-        IUserContext userContext = SpringUtils.getBean(IUserContext.class);
+        IAwSelectPersonService selectPersonService = SpringUtils.getBean(IAwSelectPersonService.class);
+        IAwUserContext userContext = SpringUtils.getBean(IAwUserContext.class);
         if (this.ccToSelf) {
             personList.add(IdName.of(userContext.getUserId(), userContext.getUserName()));
         }

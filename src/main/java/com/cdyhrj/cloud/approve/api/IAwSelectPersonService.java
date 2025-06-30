@@ -10,7 +10,7 @@ import java.util.Map;
  *
  * @author <a href="huangqi@cdyhrj.com">黄奇</a>
  */
-public interface ISelectPersonService {
+public interface IAwSelectPersonService {
     /**
      * 根据当前登录人选择直接上级审批人
      *

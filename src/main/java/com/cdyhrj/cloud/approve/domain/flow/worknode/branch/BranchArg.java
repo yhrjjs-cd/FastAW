@@ -1,7 +1,7 @@
 package com.cdyhrj.cloud.approve.domain.flow.worknode.branch;
 
 import com.alibaba.fastjson2.JSON;
-import com.cdyhrj.cloud.approve.api.IUserContext;
+import com.cdyhrj.cloud.approve.api.IAwUserContext;
 import com.cdyhrj.cloud.approve.domain.Step;
 import com.cdyhrj.cloud.approve.domain.flow.enums.NodeType;
 import com.cdyhrj.cloud.approve.domain.flow.worknode.Arg;
@@ -146,7 +146,7 @@ public class BranchArg implements Arg {
      */
     private boolean testPromoterValue(String param, Object value) {
         if ("角色".equals(param)) {
-            IUserContext userContext = SpringUtils.getBean(IUserContext.class);
+            IAwUserContext userContext = SpringUtils.getBean(IAwUserContext.class);
             return Objects.nonNull(value) && value.equals(userContext.getRoleId());
         }
 
@@ -171,7 +171,7 @@ public class BranchArg implements Arg {
 
     private boolean testEqual(Object value, Object dv) {
         if ("$USER_ID".equals(value)) {
-            IUserContext userContext = SpringUtils.getBean(IUserContext.class);
+            IAwUserContext userContext = SpringUtils.getBean(IAwUserContext.class);
             return userContext.getUserId().intValue() == (int) dv;
         }
 

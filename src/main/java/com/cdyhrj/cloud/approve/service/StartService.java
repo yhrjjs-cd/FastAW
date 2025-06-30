@@ -1,6 +1,6 @@
 package com.cdyhrj.cloud.approve.service;
 
-import com.cdyhrj.cloud.approve.api.IUserContext;
+import com.cdyhrj.cloud.approve.api.IAwUserContext;
 import com.cdyhrj.cloud.approve.domain.StartProcessInfo;
 import com.cdyhrj.cloud.approve.domain.Step;
 import com.cdyhrj.cloud.approve.entity.ProcessInstance;
@@ -23,7 +23,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 @RequiredArgsConstructor
 public class StartService {
     private final FastORM fastORM;
-    private final IUserContext userContext;
+    private final IAwUserContext userContext;
     private final ExecuteNextTaskService executeNextTaskService;
 
     /**

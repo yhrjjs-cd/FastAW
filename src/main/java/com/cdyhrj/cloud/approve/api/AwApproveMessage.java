@@ -8,9 +8,9 @@ import lombok.Data;
  * @author <a href="huangqi@cdyhrj.com">黄奇</a>
  */
 @Data
-public class ApproveMessage {
-    public static ApproveMessage of(String title, String bizType, Long bizId, Long processInstanceId, String taskType) {
-        ApproveMessage approveMessage = new ApproveMessage();
+public class AwApproveMessage {
+    public static AwApproveMessage of(String title, String bizType, Long bizId, Long processInstanceId, String taskType) {
+        AwApproveMessage approveMessage = new AwApproveMessage();
         approveMessage.setTitle(title);
         approveMessage.setBizType(bizType);
         approveMessage.setBizId(bizId);
@@ -20,8 +20,8 @@ public class ApproveMessage {
         return approveMessage;
     }
 
-    public static ApproveMessage of(String title, String bizType, Long bizId, Long processInstanceId, Long taskItemId, String taskType) {
-        ApproveMessage approveMessage = of(title, bizType, bizId, processInstanceId, taskType);
+    public static AwApproveMessage of(String title, String bizType, Long bizId, Long processInstanceId, Long taskItemId, String taskType) {
+        AwApproveMessage approveMessage = of(title, bizType, bizId, processInstanceId, taskType);
 
         approveMessage.setTaskItemId(taskItemId);
 
