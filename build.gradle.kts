@@ -65,12 +65,21 @@ tasks.bootJar {
     enabled = false
 }
 
+tasks {
+    register<Jar>("sourcesJar") {
+        archiveClassifier.set("sources")
+        from(sourceSets.main.get().allSource)
+    }
+}
+
 publishing {
     publications {
         create<MavenPublication>("mavenJava") {
             artifact(tasks.named<Jar>("jar")) {
                 classifier = ""
             }
+
+            artifact(tasks.named<Jar>("sourcesJar")) {}
         }
     }
 }
