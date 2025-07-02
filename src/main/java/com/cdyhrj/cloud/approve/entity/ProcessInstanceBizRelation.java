@@ -23,7 +23,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "wf_process_instance_biz_relation")
+@Table(name = "wf_process_instance_biz_rel")
 public class ProcessInstanceBizRelation implements Entity {
     /**
      * Inner Id，Long type
