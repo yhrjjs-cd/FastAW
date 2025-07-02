@@ -253,23 +253,23 @@ public class ExecuteNextTaskService {
                 );
         fastORM.updatable(ProcessInstanceBizRelation.class)
                 .where()
+                .andEq(ProcessInstanceBizRelation::getProcessInstanceId, processInstance.getId())
                 .ret()
                 .updateField(ProcessInstanceBizRelation::getProcessInfo, StepUtils.extractStepTipInfo(step));
 
-//        messageService.addMessage(
-//                taskItem0.getExecutorId(),
-//                MESSAGE_TITLE_TEMPLATE.formatted(processInstance.getPromoterName()),
-//                ApproveMessage.of(
-//                        "",
-//                        processInstance.getBizType(),
-//                        processInstance.getBizId(),
-//                        processInstance.getId(),
-//                        taskItem0.getId(),
-//                        ""),
-//                true,
-//                processInstance.getPromoterName(),
-//                false,
-//                NoticeType.APPROVE);
+        messageService.addMessage(
+                taskItem0.getExecutorId(),
+                MESSAGE_TITLE_TEMPLATE.formatted(processInstance.getPromoterName()),
+                AwApproveMessage.of(
+                        "",
+                        processInstance.getBizType(),
+                        processInstance.getBizId(),
+                        processInstance.getId(),
+                        taskItem0.getId(),
+                        ""),
+                true,
+                processInstance.getPromoterName(),
+                false);
     }
 
     /**
