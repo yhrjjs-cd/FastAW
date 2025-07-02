@@ -15,14 +15,14 @@ import java.util.Objects;
  * @author <a href="huangqi@cdyhrj.com">黄奇</a>
  */
 @Component
-public class SpringUtils implements ApplicationContextAware {
+public class AwSpringUtils implements ApplicationContextAware {
     @Getter
     private static ApplicationContext applicationContext;
 
     @Override
     public void setApplicationContext(@NonNull ApplicationContext applicationContext) throws BeansException {
-        if (Objects.isNull(SpringUtils.applicationContext)) {
-            SpringUtils.applicationContext = applicationContext;
+        if (Objects.isNull(AwSpringUtils.applicationContext)) {
+            AwSpringUtils.applicationContext = applicationContext;
         }
     }
 

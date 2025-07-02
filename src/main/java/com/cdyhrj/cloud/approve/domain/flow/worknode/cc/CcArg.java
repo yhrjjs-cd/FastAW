@@ -7,7 +7,7 @@ import com.cdyhrj.cloud.approve.domain.Step;
 import com.cdyhrj.cloud.approve.domain.flow.enums.NodeType;
 import com.cdyhrj.cloud.approve.domain.flow.worknode.Arg;
 import com.cdyhrj.cloud.approve.domain.flow.worknode.WorkNode;
-import com.cdyhrj.cloud.approve.util.SpringUtils;
+import com.cdyhrj.cloud.approve.util.AwSpringUtils;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -63,8 +63,8 @@ public class CcArg implements Arg {
     private List<IdName> calcPersonList() {
         List<IdName> personList = new ArrayList<>();
 
-        IAwSelectPersonService selectPersonService = SpringUtils.getBean(IAwSelectPersonService.class);
-        IAwUserContext userContext = SpringUtils.getBean(IAwUserContext.class);
+        IAwSelectPersonService selectPersonService = AwSpringUtils.getBean(IAwSelectPersonService.class);
+        IAwUserContext userContext = AwSpringUtils.getBean(IAwUserContext.class);
         if (this.ccToSelf) {
             personList.add(IdName.of(userContext.getUserId(), userContext.getUserName()));
         }

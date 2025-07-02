@@ -3,7 +3,7 @@ package com.cdyhrj.cloud.approve.service;
 import com.cdyhrj.cloud.approve.api.IAwCompleteHandler;
 import com.cdyhrj.cloud.approve.entity.ProcessInstance;
 import com.cdyhrj.cloud.approve.enums.ProcessInstanceStatus;
-import com.cdyhrj.cloud.approve.util.SpringUtils;
+import com.cdyhrj.cloud.approve.util.AwSpringUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -32,7 +32,7 @@ public class BusinessService {
             return;
         }
 
-        IAwCompleteHandler handler = SpringUtils.getBean(processInstance.getBizType(), IAwCompleteHandler.class);
+        IAwCompleteHandler handler = AwSpringUtils.getBean(processInstance.getBizType(), IAwCompleteHandler.class);
 
         handler.complete(processInstance.getBizId(), processInstance.getStatus() == ProcessInstanceStatus.Finished);
     }

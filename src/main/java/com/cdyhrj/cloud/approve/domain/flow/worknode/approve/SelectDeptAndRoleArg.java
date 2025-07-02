@@ -3,7 +3,7 @@ package com.cdyhrj.cloud.approve.domain.flow.worknode.approve;
 import com.cdyhrj.cloud.approve.api.IAwSelectPersonService;
 import com.cdyhrj.cloud.approve.domain.IdName;
 import com.cdyhrj.cloud.approve.domain.flow.enums.SelectType;
-import com.cdyhrj.cloud.approve.util.SpringUtils;
+import com.cdyhrj.cloud.approve.util.AwSpringUtils;
 import lombok.Data;
 import org.springframework.util.Assert;
 
@@ -37,6 +37,6 @@ public class SelectDeptAndRoleArg implements SelectTypeArg {
         List<Long> deptIds = deptList.stream().map(IdName::getId).toList();
         List<Long> roleIds = roleList.stream().map(IdName::getId).toList();
 
-        return SpringUtils.getBean(IAwSelectPersonService.class).selectDeptAndRoleIds(deptIds, roleIds);
+        return AwSpringUtils.getBean(IAwSelectPersonService.class).selectDeptAndRoleIds(deptIds, roleIds);
     }
 }

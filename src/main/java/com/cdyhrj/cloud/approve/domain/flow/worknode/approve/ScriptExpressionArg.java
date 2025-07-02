@@ -3,7 +3,7 @@ package com.cdyhrj.cloud.approve.domain.flow.worknode.approve;
 import com.cdyhrj.cloud.approve.api.IAwSelectPersonService;
 import com.cdyhrj.cloud.approve.domain.IdName;
 import com.cdyhrj.cloud.approve.domain.flow.enums.SelectType;
-import com.cdyhrj.cloud.approve.util.SpringUtils;
+import com.cdyhrj.cloud.approve.util.AwSpringUtils;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 
@@ -25,6 +25,6 @@ public class ScriptExpressionArg implements SelectTypeArg {
 
     @Override
     public List<IdName> calcPersonList(Map<String, Object> submitData) {
-        return SpringUtils.getBean(IAwSelectPersonService.class).selectByScript(script, submitData);
+        return AwSpringUtils.getBean(IAwSelectPersonService.class).selectByScript(script, submitData);
     }
 }

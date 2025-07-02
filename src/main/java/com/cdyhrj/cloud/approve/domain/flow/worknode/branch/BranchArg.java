@@ -6,7 +6,7 @@ import com.cdyhrj.cloud.approve.domain.Step;
 import com.cdyhrj.cloud.approve.domain.flow.enums.NodeType;
 import com.cdyhrj.cloud.approve.domain.flow.worknode.Arg;
 import com.cdyhrj.cloud.approve.domain.flow.worknode.WorkNode;
-import com.cdyhrj.cloud.approve.util.SpringUtils;
+import com.cdyhrj.cloud.approve.util.AwSpringUtils;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.BooleanUtils;
@@ -146,7 +146,7 @@ public class BranchArg implements Arg {
      */
     private boolean testPromoterValue(String param, Object value) {
         if ("角色".equals(param)) {
-            IAwUserContext userContext = SpringUtils.getBean(IAwUserContext.class);
+            IAwUserContext userContext = AwSpringUtils.getBean(IAwUserContext.class);
             return Objects.nonNull(value) && value.equals(userContext.getRoleId());
         }
 
@@ -171,7 +171,7 @@ public class BranchArg implements Arg {
 
     private boolean testEqual(Object value, Object dv) {
         if ("$USER_ID".equals(value)) {
-            IAwUserContext userContext = SpringUtils.getBean(IAwUserContext.class);
+            IAwUserContext userContext = AwSpringUtils.getBean(IAwUserContext.class);
             return userContext.getUserId().intValue() == (int) dv;
         }
 
