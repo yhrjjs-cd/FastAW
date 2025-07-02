@@ -1,6 +1,7 @@
 package com.cdyhrj.cloud.approve.entity;
 
 import com.cdyhrj.fastorm.annotation.Column;
+import com.cdyhrj.fastorm.annotation.Id;
 import com.cdyhrj.fastorm.annotation.Table;
 import com.cdyhrj.fastorm.entity.Entity;
 import lombok.AllArgsConstructor;
@@ -17,6 +18,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Table(name = "wf_task_item_clob")
 public class TaskItemClob implements Entity {
+    @Id
+    @Column
+    private Long id;
+
     /**
      * 任务的Guid
      */
