@@ -54,8 +54,7 @@ public class ExecuteNextTaskService {
                 .andEq(Task::getStatus, TaskStatus.Created)
                 .andEq(Task::getProcessInstanceId, processInstance.getId())
                 .ret()
-                .orderBy()
-                .ret()
+                .orderBy().add(Task::getTaskIndex).ret()
                 .fetch();
 
         task.ifPresentOrElse(t -> {
