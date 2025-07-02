@@ -59,7 +59,10 @@ public class TaskService {
         String opinion = taskApproveObject.getOpinion();
         if (StringUtils.isNotBlank(opinion)) {
             if (opinion.length() > TaskItem.MAX_OPINION_FIELD_LENGTH) {
-                TaskItemClob taskItemClob = new TaskItemClob(taskItem.getId(), opinion);
+                TaskItemClob taskItemClob = TaskItemClob.builder()
+                        .taskItemId(taskItem.getId())
+                        .result(opinion)
+                        .build();
                 fastORM.insertable(taskItemClob).insert();
             } else {
                 taskItem.setOpinion(opinion);

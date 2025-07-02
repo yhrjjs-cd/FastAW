@@ -5,6 +5,7 @@ import com.cdyhrj.fastorm.annotation.Id;
 import com.cdyhrj.fastorm.annotation.Table;
 import com.cdyhrj.fastorm.entity.Entity;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -14,6 +15,7 @@ import lombok.NoArgsConstructor;
  * @author 黄奇
  */
 @Data
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "wf_task_item_clob")
