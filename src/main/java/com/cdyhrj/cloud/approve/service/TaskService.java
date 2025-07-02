@@ -11,7 +11,7 @@ import com.cdyhrj.cloud.approve.entity.TaskItemClob;
 import com.cdyhrj.cloud.approve.entity.Variable;
 import com.cdyhrj.cloud.approve.enums.TaskStatus;
 import com.cdyhrj.cloud.approve.exception.WrongStatusException;
-import com.cdyhrj.fastorm.FastORM;
+import com.cdyhrj.fast.orm.FastORM;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;

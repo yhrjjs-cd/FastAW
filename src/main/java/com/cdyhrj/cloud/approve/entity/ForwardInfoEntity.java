@@ -1,8 +1,8 @@
 package com.cdyhrj.cloud.approve.entity;
 
-import com.cdyhrj.fastorm.annotation.Column;
-import com.cdyhrj.fastorm.annotation.Table;
-import com.cdyhrj.fastorm.entity.BaseEntity;
+import com.cdyhrj.fast.orm.annotation.Column;
+import com.cdyhrj.fast.orm.annotation.Table;
+import com.cdyhrj.fast.orm.entity.BaseEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

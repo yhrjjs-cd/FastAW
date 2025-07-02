@@ -3,13 +3,12 @@ package com.cdyhrj.cloud.approve.entity;
 import com.cdyhrj.cloud.approve.domain.flow.enums.NodeType;
 import com.cdyhrj.cloud.approve.domain.flow.enums.SignRule;
 import com.cdyhrj.cloud.approve.enums.TaskStatus;
-import com.cdyhrj.fastorm.annotation.Column;
-import com.cdyhrj.fastorm.annotation.Table;
-import com.cdyhrj.fastorm.entity.BaseEntity;
+import com.cdyhrj.fast.orm.annotation.Column;
+import com.cdyhrj.fast.orm.annotation.Table;
+import com.cdyhrj.fast.orm.entity.BaseEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
@@ -19,7 +18,6 @@ import java.time.LocalDateTime;
  *
  * @author 黄奇
  */
-@EqualsAndHashCode(callSuper = true)
 @Data
 @Builder
 @AllArgsConstructor

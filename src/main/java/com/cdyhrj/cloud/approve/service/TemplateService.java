@@ -3,7 +3,7 @@ package com.cdyhrj.cloud.approve.service;
 import com.alibaba.fastjson2.JSON;
 import com.cdyhrj.cloud.approve.domain.flow.Flow;
 import com.cdyhrj.cloud.approve.entity.WfTemplate;
-import com.cdyhrj.fastorm.FastORM;
+import com.cdyhrj.fast.orm.FastORM;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

@@ -6,7 +6,7 @@ import com.cdyhrj.cloud.approve.domain.Step;
 import com.cdyhrj.cloud.approve.entity.ProcessInstance;
 import com.cdyhrj.cloud.approve.entity.Task;
 import com.cdyhrj.cloud.approve.enums.TaskStatus;
-import com.cdyhrj.fastorm.FastORM;
+import com.cdyhrj.fast.orm.FastORM;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

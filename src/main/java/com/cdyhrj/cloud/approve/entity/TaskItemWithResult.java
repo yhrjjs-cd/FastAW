@@ -1,9 +1,9 @@
 package com.cdyhrj.cloud.approve.entity;
 
 import com.cdyhrj.cloud.approve.enums.TaskStatus;
-import com.cdyhrj.fastorm.annotation.Column;
-import com.cdyhrj.fastorm.annotation.Table;
-import com.cdyhrj.fastorm.entity.Entity;
+import com.cdyhrj.fast.orm.annotation.Column;
+import com.cdyhrj.fast.orm.annotation.Table;
+import com.cdyhrj.fast.orm.entity.Entity;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -27,12 +27,6 @@ public class TaskItemWithResult implements Entity {
      */
     @Column
     private Long processInstanceId;
-//
-//    /**
-//     * 处理人Guid
-//     */
-//    @Column
-//    private String executorId;
 
     /**
      * 处理人姓名
@@ -40,11 +34,11 @@ public class TaskItemWithResult implements Entity {
     @Column
     private String executorName;
 
-//    /**
-//     * 开始时间
-//     */
-//    @Column
-//    private Date startTime;
+    /**
+     * 开始时间
+     */
+    @Column
+    private LocalDateTime startTime;
 //
     /**
      * 结束时间
@@ -58,17 +52,17 @@ public class TaskItemWithResult implements Entity {
     @Column
     private TaskStatus status;
 
-//    /**
-//     * 次序
-//     */
-//    @Column
-//    private int itemIndex;
-//
-//    /**
-//     * 企业Id
-//     */
-//    @Column
-//    private long tenantId;
+    /**
+     * 次序
+     */
+    @Column
+    private int itemIndex;
+
+    /**
+     * 企业Id
+     */
+    @Column
+    private long tenantId;
 
     /**
      * 审批结果

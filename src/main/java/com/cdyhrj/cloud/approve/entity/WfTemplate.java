@@ -1,13 +1,13 @@
 package com.cdyhrj.cloud.approve.entity;
 
 import com.cdyhrj.cloud.approve.domain.flow.Flow;
-import com.cdyhrj.fastorm.adapter.ObjectValueAdapter;
-import com.cdyhrj.fastorm.annotation.ColDefine;
-import com.cdyhrj.fastorm.annotation.Column;
-import com.cdyhrj.fastorm.annotation.Id;
-import com.cdyhrj.fastorm.annotation.Name;
-import com.cdyhrj.fastorm.annotation.Table;
-import com.cdyhrj.fastorm.entity.Entity;
+import com.cdyhrj.fast.orm.adapter.ObjectValueAdapter;
+import com.cdyhrj.fast.orm.annotation.ColDefine;
+import com.cdyhrj.fast.orm.annotation.Column;
+import com.cdyhrj.fast.orm.annotation.Id;
+import com.cdyhrj.fast.orm.annotation.Name;
+import com.cdyhrj.fast.orm.annotation.Table;
+import com.cdyhrj.fast.orm.entity.Entity;
 import lombok.Data;
 
 /**

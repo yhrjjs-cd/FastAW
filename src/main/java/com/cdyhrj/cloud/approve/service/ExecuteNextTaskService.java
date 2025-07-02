@@ -17,7 +17,7 @@ import com.cdyhrj.cloud.approve.enums.EmptyApprovalRule;
 import com.cdyhrj.cloud.approve.enums.ProcessInstanceStatus;
 import com.cdyhrj.cloud.approve.enums.TaskStatus;
 import com.cdyhrj.cloud.approve.exception.NoApprovalPersonException;
-import com.cdyhrj.fastorm.FastORM;
+import com.cdyhrj.fast.orm.FastORM;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;

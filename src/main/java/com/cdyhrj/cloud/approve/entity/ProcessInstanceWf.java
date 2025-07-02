@@ -1,12 +1,12 @@
 package com.cdyhrj.cloud.approve.entity;
 
 import com.cdyhrj.cloud.approve.domain.RuntimeWf;
-import com.cdyhrj.fastorm.adapter.ObjectValueAdapter;
-import com.cdyhrj.fastorm.annotation.ColDefine;
-import com.cdyhrj.fastorm.annotation.Column;
-import com.cdyhrj.fastorm.annotation.IdOneToOne;
-import com.cdyhrj.fastorm.annotation.Table;
-import com.cdyhrj.fastorm.entity.BaseEntity;
+import com.cdyhrj.fast.orm.adapter.ObjectValueAdapter;
+import com.cdyhrj.fast.orm.annotation.ColDefine;
+import com.cdyhrj.fast.orm.annotation.Column;
+import com.cdyhrj.fast.orm.annotation.IdOneToOne;
+import com.cdyhrj.fast.orm.annotation.Table;
+import com.cdyhrj.fast.orm.entity.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -15,7 +15,6 @@ import lombok.EqualsAndHashCode;
  *
  * @author 黄奇
  */
-@EqualsAndHashCode(callSuper = true)
 @Table(name = "wf_process_instance_wf")
 @Data
 public class ProcessInstanceWf extends BaseEntity {
