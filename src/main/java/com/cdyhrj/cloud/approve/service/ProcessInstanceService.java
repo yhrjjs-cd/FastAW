@@ -122,7 +122,8 @@ public class ProcessInstanceService {
      * @return 描述信息
      */
     private String calcDescription(StartProcessInfo startProcessInfo) {
-        String templateId = startProcessInfo.getRuntimeWf().getTemplateId();
+        String templateId = Objects.requireNonNull(startProcessInfo.getRuntimeWf().getTemplateId(), "must have template id in runtimeWf");
+
         String templateContent = templateService.getConfig(templateId).getContentTemplate();
         if (Objects.isNull(templateContent)) {
             return String.valueOf(startProcessInfo.getBizData());
