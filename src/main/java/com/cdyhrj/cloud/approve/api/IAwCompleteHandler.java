@@ -9,8 +9,9 @@ public interface IAwCompleteHandler {
     /**
      * 执行完成
      *
+     * @param bizType   业务类型
      * @param bizId     业务Id
      * @param isSuccess 是否成功
      */
-    void complete(Long bizId, boolean isSuccess);
+    void complete(String bizType, Long bizId, boolean isSuccess);
 }
