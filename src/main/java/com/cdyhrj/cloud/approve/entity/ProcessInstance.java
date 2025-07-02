@@ -98,5 +98,6 @@ public class ProcessInstance extends BaseEntity {
      * 流程配置
      */
     @OneToOne(target = ProcessInstanceWf.class)
+    @Column
     public ProcessInstanceWf processInstanceWf;
 }
