@@ -8,15 +8,8 @@ group = "com.cdyhrj"
 version = "0.0.1"
 
 repositories {
+    mavenCentral()
     mavenLocal()
-
-    maven {
-        credentials {
-            username = "600167914fb2132a19618640"
-            password = "i5)-W)rYUXB_"
-        }
-        setUrl("https://packages.aliyun.com/63199ee5050e9c4a07a98a2f/maven/2276037-release-uzq6cr")
-    }
 }
 
 java {
