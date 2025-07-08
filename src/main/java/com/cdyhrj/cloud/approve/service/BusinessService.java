@@ -35,8 +35,12 @@ public class BusinessService {
             return;
         }
 
-        awCompleteHandler.complete(processInstance.getBizType(),
+        awCompleteHandler.complete(
+                processInstance.getBizType(),
+                processInstance.getTenantId(),
                 processInstance.getBizId(),
+                processInstance.getPromoterId(),
+                processInstance.getPromoterName(),
                 processInstance.getStatus() == ProcessInstanceStatus.Finished);
     }
 }
