@@ -14,9 +14,10 @@ public interface IAwSelectPersonService {
     /**
      * 根据当前登录人选择直接上级审批人
      *
+     * @param userId 用户Id
      * @return 审批人列表
      */
-    List<IdName> selectDirectorSuperior();
+    List<IdName> selectDirectorSuperior(Long userId);
 
     /**
      * 通过角色Id选择审批人

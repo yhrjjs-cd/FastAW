@@ -5,6 +5,7 @@ import com.alibaba.fastjson2.JSONObject;
 import com.alibaba.fastjson2.JSONReader;
 import com.alibaba.fastjson2.annotation.JSONType;
 import com.alibaba.fastjson2.reader.ObjectReader;
+import com.cdyhrj.cloud.approve.api.IAwUserContext;
 import com.cdyhrj.cloud.approve.domain.Step;
 import com.cdyhrj.cloud.approve.domain.flow.enums.NodeType;
 
@@ -25,11 +26,12 @@ public interface Arg extends Serializable {
     /**
      * 写入步骤信息到步骤列表中
      *
+     * @param userContext 发起者上下文
      * @param steps       步骤列表
      * @param dataValue   提交的数据集
      * @param contextNode 所在节点
      */
-    void writeStepsTo(List<Step> steps, Map<String, Object> dataValue, WorkNode contextNode);
+    void writeStepsTo(IAwUserContext userContext, List<Step> steps, Map<String, Object> dataValue, WorkNode contextNode);
 
     class ArgDeserializer implements ObjectReader<Arg> {
         static final String MATCH_FIELD = "nodeType";

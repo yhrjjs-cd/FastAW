@@ -1,6 +1,7 @@
 
 package com.cdyhrj.cloud.approve.controller;
 
+import com.cdyhrj.cloud.approve.api.IAwUserContext;
 import com.cdyhrj.cloud.approve.domain.ApprovalInfo;
 import com.cdyhrj.cloud.approve.domain.ForwardInfo;
 import com.cdyhrj.cloud.approve.domain.StartProcessInfo;
@@ -34,6 +35,7 @@ import java.util.Map;
 public class RuntimeController {
     private final ProcessInstanceService processInstanceService;
     private final TaskService taskService;
+    private final IAwUserContext awUserContext;
 
     /**
      * 发起流程
@@ -107,7 +109,7 @@ public class RuntimeController {
      */
     @PostMapping(value = "/step-info")
     public StepInfo getStepInfo(@RequestParam String id, @RequestBody Map<String, Object> dataValue) {
-        return processInstanceService.getStepInfo(id, dataValue);
+        return processInstanceService.getStepInfo(id, awUserContext, dataValue);
     }
 
     /**

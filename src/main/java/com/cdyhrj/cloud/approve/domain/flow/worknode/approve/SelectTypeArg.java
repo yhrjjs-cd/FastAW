@@ -5,6 +5,7 @@ import com.alibaba.fastjson2.JSONObject;
 import com.alibaba.fastjson2.JSONReader;
 import com.alibaba.fastjson2.annotation.JSONType;
 import com.alibaba.fastjson2.reader.ObjectReader;
+import com.cdyhrj.cloud.approve.api.IAwUserContext;
 import com.cdyhrj.cloud.approve.domain.IdName;
 import com.cdyhrj.cloud.approve.domain.flow.enums.SelectType;
 
@@ -30,10 +31,11 @@ public interface SelectTypeArg extends Serializable {
     /**
      * 计算审批人员信息
      *
-     * @param submitData 提交的数据
+     * @param userContext 发起人上下文
+     * @param submitData  提交的数据
      * @return 审批人员信息
      */
-    List<IdName> calcPersonList(Map<String, Object> submitData);
+    List<IdName> calcPersonList(IAwUserContext userContext, Map<String, Object> submitData);
 
     class ArgDeserializer implements ObjectReader<SelectTypeArg> {
         static final String MATCH_FIELD = "type";

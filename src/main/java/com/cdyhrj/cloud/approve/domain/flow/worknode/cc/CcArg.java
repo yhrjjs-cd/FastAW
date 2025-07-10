@@ -44,33 +44,32 @@ public class CcArg implements Arg {
     private DeptAndRole deptAndRole;
 
     @Override
-    public void writeStepsTo(List<Step> steps, Map<String, Object> dataValue, WorkNode contextNode) {
+    public void writeStepsTo(IAwUserContext userContext, List<Step> steps, Map<String, Object> dataValue, WorkNode contextNode) {
         Step step = Step.builder()
                 .id(contextNode.getId())
                 .nodeType(this.nodeType)
                 .name(this.title)
-                .personList(this.calcPersonList())
+                .personList(this.calcPersonList(userContext))
                 .build();
 
         steps.add(step);
 
         WorkNode next = contextNode.getNext();
         if (Objects.nonNull(next)) {
-            next.writeStepsTo(steps, dataValue);
+            next.writeStepsTo(userContext, steps, dataValue);
         }
     }
 
-    private List<IdName> calcPersonList() {
+    private List<IdName> calcPersonList(IAwUserContext userContext) {
         List<IdName> personList = new ArrayList<>();
 
         IAwSelectPersonService selectPersonService = AwSpringUtils.getBean(IAwSelectPersonService.class);
-        IAwUserContext userContext = AwSpringUtils.getBean(IAwUserContext.class);
         if (this.ccToSelf) {
             personList.add(IdName.of(userContext.getUserId(), userContext.getUserName()));
         }
 
         if (this.ccDirectorSuperior) {
-            personList.addAll(selectPersonService.selectDirectorSuperior());
+            personList.addAll(selectPersonService.selectDirectorSuperior(userContext.getUserId()));
         }
 
         if (Objects.nonNull(this.roleArr) && !this.roleArr.isEmpty()) {

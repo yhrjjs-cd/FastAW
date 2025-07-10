@@ -1,6 +1,7 @@
 package com.cdyhrj.cloud.approve.domain.flow.worknode.approve;
 
 import com.cdyhrj.cloud.approve.api.IAwSelectPersonService;
+import com.cdyhrj.cloud.approve.api.IAwUserContext;
 import com.cdyhrj.cloud.approve.domain.IdName;
 import com.cdyhrj.cloud.approve.domain.flow.enums.SelectType;
 import com.cdyhrj.cloud.approve.util.AwSpringUtils;
@@ -30,7 +31,7 @@ public class SelectDeptAndRoleArg implements SelectTypeArg {
     private List<IdName> roleList;
 
     @Override
-    public List<IdName> calcPersonList(Map<String, Object> submitData) {
+    public List<IdName> calcPersonList(IAwUserContext userContext, Map<String, Object> submitData) {
         Assert.isTrue(Objects.nonNull(deptList) && !deptList.isEmpty(), "必须配置部门");
         Assert.isTrue(Objects.nonNull(roleList) && !roleList.isEmpty(), "必须配置角色");
 

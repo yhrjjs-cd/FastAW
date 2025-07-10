@@ -1,6 +1,7 @@
 package com.cdyhrj.cloud.approve.domain.flow.worknode.approve;
 
 import com.cdyhrj.cloud.approve.api.IAwSelectPersonService;
+import com.cdyhrj.cloud.approve.api.IAwUserContext;
 import com.cdyhrj.cloud.approve.domain.IdName;
 import com.cdyhrj.cloud.approve.domain.flow.enums.SelectType;
 import com.cdyhrj.cloud.approve.util.AwSpringUtils;
@@ -23,7 +24,7 @@ public class SelectRoleArg implements SelectTypeArg {
     private List<IdName> roleList;
 
     @Override
-    public List<IdName> calcPersonList(Map<String, Object> submitData) {
+    public List<IdName> calcPersonList(IAwUserContext userContext, Map<String, Object> submitData) {
         if (Objects.isNull(roleList)) {
             return Collections.emptyList();
         }

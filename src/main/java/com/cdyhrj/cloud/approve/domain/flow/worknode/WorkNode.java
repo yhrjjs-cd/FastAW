@@ -1,5 +1,6 @@
 package com.cdyhrj.cloud.approve.domain.flow.worknode;
 
+import com.cdyhrj.cloud.approve.api.IAwUserContext;
 import com.cdyhrj.cloud.approve.domain.Step;
 import com.cdyhrj.cloud.approve.domain.flow.enums.NodeType;
 import lombok.Data;
@@ -41,7 +42,7 @@ public class WorkNode implements Serializable {
      * @param steps     输出步骤列表
      * @param dataValue 提交的数据
      */
-    public void writeStepsTo(List<Step> steps, Map<String, Object> dataValue) {
-        arg.writeStepsTo(steps, dataValue, this);
+    public void writeStepsTo(IAwUserContext userContext, List<Step> steps, Map<String, Object> dataValue) {
+        arg.writeStepsTo(userContext, steps, dataValue, this);
     }
 }

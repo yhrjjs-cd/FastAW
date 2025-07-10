@@ -378,11 +378,12 @@ public class ProcessInstanceService {
     /**
      * 获取步骤信息
      *
-     * @param id        模版Id
-     * @param dataValue 待提交的数据值
+     * @param id          模版Id
+     * @param userContext 用户上下文
+     * @param dataValue   待提交的数据值
      * @return 步骤信息
      */
-    public StepInfo getStepInfo(String id, Map<String, Object> dataValue) {
+    public StepInfo getStepInfo(String id, IAwUserContext userContext, Map<String, Object> dataValue) {
         StepInfo stepInfo = new StepInfo();
 
         Flow flow = templateService.getConfig(id);
@@ -392,7 +393,7 @@ public class ProcessInstanceService {
         List<Step> steps = new ArrayList<>();
 
         WorkNode next = flow.getNext();
-        next.writeStepsTo(steps, dataValue);
+        next.writeStepsTo(userContext, steps, dataValue);
 
         stepInfo.setSteps(steps);
 

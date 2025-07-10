@@ -1,5 +1,6 @@
 package com.cdyhrj.cloud.approve.domain.flow.worknode.approve;
 
+import com.cdyhrj.cloud.approve.api.IAwUserContext;
 import com.cdyhrj.cloud.approve.domain.IdName;
 import com.cdyhrj.cloud.approve.domain.Step;
 import com.cdyhrj.cloud.approve.domain.flow.enums.NodeType;
@@ -31,24 +32,24 @@ public class ApproveArg implements Arg {
     private SignRule signRule;
 
     @Override
-    public void writeStepsTo(List<Step> steps, Map<String, Object> dataValue, WorkNode contextNode) {
+    public void writeStepsTo(IAwUserContext awUserContext, List<Step> steps, Map<String, Object> dataValue, WorkNode contextNode) {
         Step step = Step.builder()
                 .id(contextNode.getId())
                 .nodeType(this.nodeType)
                 .name(this.title)
                 .signRule(this.signRule)
-                .personList(this.calcPersonList(dataValue))
+                .personList(this.calcPersonList(awUserContext, dataValue))
                 .build();
 
         steps.add(step);
 
         WorkNode next = contextNode.getNext();
         if (Objects.nonNull(next)) {
-            next.writeStepsTo(steps, dataValue);
+            next.writeStepsTo(awUserContext, steps, dataValue);
         }
     }
 
-    private List<IdName> calcPersonList(Map<String, Object> dataValue) {
-        return selectTypeArg.calcPersonList(dataValue);
+    private List<IdName> calcPersonList(IAwUserContext userContext, Map<String, Object> dataValue) {
+        return selectTypeArg.calcPersonList(userContext, dataValue);
     }
 }

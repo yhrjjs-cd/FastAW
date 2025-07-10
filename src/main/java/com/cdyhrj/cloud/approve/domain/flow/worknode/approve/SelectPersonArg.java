@@ -1,5 +1,6 @@
 package com.cdyhrj.cloud.approve.domain.flow.worknode.approve;
 
+import com.cdyhrj.cloud.approve.api.IAwUserContext;
 import com.cdyhrj.cloud.approve.domain.IdName;
 import com.cdyhrj.cloud.approve.domain.flow.enums.SelectType;
 import lombok.Data;
@@ -21,7 +22,7 @@ public class SelectPersonArg implements SelectTypeArg {
     private IdName[] personList;
 
     @Override
-    public List<IdName> calcPersonList(Map<String, Object> submitData) {
+    public List<IdName> calcPersonList(IAwUserContext userContext, Map<String, Object> submitData) {
         return Arrays.stream(personList).toList();
     }
 }

@@ -39,29 +39,29 @@ public class BranchArg implements Arg {
 
 
     @Override
-    public void writeStepsTo(List<Step> steps, Map<String, Object> dataValue, WorkNode contextNode) {
+    public void writeStepsTo(IAwUserContext userContext, List<Step> steps, Map<String, Object> dataValue, WorkNode contextNode) {
         int len = children.length;
 
         if (BooleanUtils.isTrue(this.supportDefault)) {
-            writeStepsWithDefault(steps, dataValue, len);
+            writeStepsWithDefault(userContext, steps, dataValue, len);
         } else {
-            writeStepsWithOutDefault(steps, dataValue, len, contextNode);
+            writeStepsWithOutDefault(userContext, steps, dataValue, len, contextNode);
         }
 
         WorkNode next = contextNode.getNext();
         if (Objects.nonNull(next)) {
-            next.writeStepsTo(steps, dataValue);
+            next.writeStepsTo(userContext, steps, dataValue);
         }
     }
 
-    private void writeStepsWithDefault(List<Step> steps, Map<String, Object> dataValue, int len) {
+    private void writeStepsWithDefault(IAwUserContext userContext, List<Step> steps, Map<String, Object> dataValue, int len) {
         for (int i = 0; i < len; i++) {
             BranchItem item = children[i];
 
             if (i == len - 1) {
                 // 默认项不比较，直接通过
                 if (Objects.nonNull(item.getNode())) {
-                    item.getNode().writeStepsTo(steps, dataValue);
+                    item.getNode().writeStepsTo(userContext, steps, dataValue);
                 }
 
                 break;
@@ -69,7 +69,7 @@ public class BranchArg implements Arg {
 
             if (testIsTrue(item.getConditions(), item.getLinkMethod(), dataValue)) {
                 if (Objects.nonNull(item.getNode())) {
-                    item.getNode().writeStepsTo(steps, dataValue);
+                    item.getNode().writeStepsTo(userContext, steps, dataValue);
                 }
 
                 break;
@@ -77,7 +77,7 @@ public class BranchArg implements Arg {
         }
     }
 
-    private void writeStepsWithOutDefault(List<Step> steps, Map<String, Object> dataValue, int len, WorkNode contextNode) {
+    private void writeStepsWithOutDefault(IAwUserContext userContext, List<Step> steps, Map<String, Object> dataValue, int len, WorkNode contextNode) {
         boolean passed = false;
 
         for (int i = 0; i < len; i++) {
@@ -86,7 +86,7 @@ public class BranchArg implements Arg {
             if (testIsTrue(item.getConditions(), item.getLinkMethod(), dataValue)) {
                 passed = true;
                 if (Objects.nonNull(item.getNode())) {
-                    item.getNode().writeStepsTo(steps, dataValue);
+                    item.getNode().writeStepsTo(userContext, steps, dataValue);
                 }
 
                 break;
