@@ -307,6 +307,7 @@ public class ExecuteNextTaskService {
                         ProcessInstance::getCurrTaskExecutors, task.getCurrTaskExecutors());
         fastORM.updatable(ProcessInstanceBizRelation.class)
                 .where()
+                .andEq(ProcessInstanceBizRelation::getProcessInstanceId, processInstance.getId())
                 .ret()
                 .updateField(ProcessInstanceBizRelation::getProcessInfo, StepUtils.extractStepTipInfo(step));
 
